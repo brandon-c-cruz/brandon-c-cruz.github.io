@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LBO Returns Calculator | Brandon Cruz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Brandon Cruz</a>
+      <ul class="nav-links">
+        <li><a href="index.html#skills">Skills</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Project &middot; Live Demo</p>
+      <h1>LBO Returns Calculator</h1>
+      <p class="statement">
+        Change the deal assumptions and the model rebuilds the debt schedule and sponsor returns instantly.
+        Free cash flow after interest goes to paying down debt each year.
+      </p>
+
+      <div class="calc-grid">
+        <div class="card">
+          <h3 style="margin-bottom:16px;">Assumptions</h3>
+          <div class="field"><label for="ebitda">Entry EBITDA ($M)</label><input id="ebitda" type="number" step="0.1" value="1.4"></div>
+          <div class="field"><label for="entry">Entry multiple (x EBITDA)</label><input id="entry" type="number" step="0.1" value="4.5"></div>
+          <div class="field"><label for="lev">Debt (x EBITDA)</label><input id="lev" type="number" step="0.1" value="3.0"></div>
+          <div class="field"><label for="rate">Interest rate (%)</label><input id="rate" type="number" step="0.25" value="10"></div>
+          <div class="field"><label for="growth">Annual EBITDA growth (%)</label><input id="growth" type="number" step="0.5" value="5"></div>
+          <div class="field"><label for="conv">Cash conversion (% of EBITDA, pre-interest)</label><input id="conv" type="number" step="5" value="55"></div>
+          <div class="field"><label for="exit">Exit multiple (x EBITDA)</label><input id="exit" type="number" step="0.1" value="4.5"></div>
+          <div class="field"><label for="years">Hold period (years)</label><input id="years" type="number" step="1" min="1" max="10" value="5"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:16px;">Returns</h3>
+          <div class="kpis">
+            <div class="kpi"><div class="v" id="moic">–</div><div class="k">MOIC</div></div>
+            <div class="kpi"><div class="v" id="irr">–</div><div class="k">IRR</div></div>
+            <div class="kpi"><div class="v" id="eqIn">–</div><div class="k">Equity invested ($M)</div></div>
+            <div class="kpi"><div class="v" id="eqOut">–</div><div class="k">Exit equity ($M)</div></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Year</th><th>EBITDA</th><th>Interest</th><th>FCF</th><th>Ending Debt</th></tr></thead>
+              <tbody id="schedule"></tbody>
+            </table>
+          </div>
+          <p class="note" style="margin-top:12px;">Illustrative model with simplified assumptions (no fees, taxes modeled within cash conversion). All figures in $ millions.</p>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:28px;">
+        <a class="btn ghost" href="index.html#projects">&larr; Back to Projects</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2026 Brandon Cruz</footer>
+
+  <script>
+    const ids = ["ebitda", "entry", "lev", "rate", "growth", "conv", "exit", "years"];
+    const val = id => parseFloat(document.getElementById(id).value) || 0;
+    const fmt = n => n.toFixed(2);
+
+    function run() {
+      const ebitda0 = val("ebitda"), entry = val("entry"), lev = val("lev");
+      const rate = val("rate") / 100, g = val("growth") / 100, conv = val("conv") / 100;
+      const exitMult = val("exit");
+      const years = Math.min(10, Math.max(1, Math.round(val("years"))));
+
+      const ev = ebitda0 * entry;
+      let debt = Math.min(ebitda0 * lev, ev);
+      const equityIn = ev - debt;
+
+      let ebitda = ebitda0, cash = 0, rows = "";
+      for (let y = 1; y <= years; y++) {
+        ebitda *= (1 + g);
+        const interest = debt * rate;
+        const fcf = ebitda * conv - interest;
+        const paydown = Math.max(0, Math.min(fcf, debt));
+        debt -= paydown;
+        cash += fcf - paydown;
+        rows += `<tr><td>${y}</td><td>${fmt(ebitda)}</td><td>${fmt(interest)}</td><td>${fmt(fcf)}</td><td>${fmt(debt)}</td></tr>`;
+      }
+      // Cash left after debt is fully repaid builds on the balance sheet and is added to exit equity
+      const exitEV = ebitda * exitMult;
+      const equityOut = exitEV - debt + cash;
+      const moic = equityIn > 0 ? equityOut / equityIn : NaN;
+      const irr = moic > 0 ? Math.pow(moic, 1 / years) - 1 : NaN;
+
+      document.getElementById("schedule").innerHTML = rows;
+      document.getElementById("eqIn").textContent = fmt(equityIn);
+      document.getElementById("eqOut").textContent = fmt(equityOut);
+      document.getElementById("moic").textContent = isFinite(moic) ? moic.toFixed(2) + "x" : "n/a";
+      document.getElementById("irr").textContent = isFinite(irr) ? (irr * 100).toFixed(1) + "%" : "n/a";
+    }
+
+    ids.forEach(id => document.getElementById(id).addEventListener("input", run));
+    run();
+  </script>
+</body>
+</html>

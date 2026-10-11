@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brandon Cruz | Finance Portfolio</title>
+  <meta name="description" content="Brandon Cruz, Finance student at Rutgers Business School and former M&A Summer Analyst.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="#top">Brandon Cruz</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- PERSONAL STATEMENT -->
+    <section class="hero" id="about">
+      <p class="eyebrow">Finance &middot; Rutgers Business School &middot; Class of 2028</p>
+      <h1>Brandon Cruz</h1>
+      <p class="statement">
+        I'm a Rutgers Business School finance student and former M&amp;A Summer Analyst who builds
+        the valuation and LBO models behind middle-market deals, with a long-term focus on private credit.
+      </p>
+      <p class="meta">New Brunswick, NJ &nbsp;|&nbsp; FINRA SIE &nbsp;|&nbsp; Bloomberg Market Concepts &nbsp;|&nbsp; Fluent in Spanish</p>
+      <div class="btn-row">
+        <a class="btn primary" href="#projects">View Projects</a>
+        <a class="btn ghost" href="mailto:bcc106@scarletmail.rutgers.edu">Email Me</a>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <p class="eyebrow">What I bring</p>
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="card">
+          <h3>Financial Modeling &amp; Valuation</h3>
+          <ul class="tags">
+            <li>LBO Modeling</li>
+            <li>DCF Analysis</li>
+            <li>Comparable Companies</li>
+            <li>Precedent Transactions</li>
+            <li>Returns Analysis (IRR / MOIC)</li>
+            <li>Credit &amp; Downside Analysis</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Tools &amp; Technical</h3>
+          <ul class="tags">
+            <li>Microsoft Excel</li>
+            <li>PowerPoint (Pitch Decks)</li>
+            <li>Bloomberg Terminal</li>
+            <li>SQL / MySQL Workbench</li>
+            <li>Relational Database Design</li>
+            <li>HTML / CSS / JavaScript</li>
+            <li>Git &amp; GitHub</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Professional</h3>
+          <ul class="tags">
+            <li>Buy- &amp; Sell-Side M&amp;A Support</li>
+            <li>Client Communication</li>
+            <li>Team Leadership</li>
+            <li>Networking &amp; Outreach</li>
+            <li>Bilingual: English / Spanish</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Certifications</h3>
+          <ul class="tags">
+            <li>FINRA SIE</li>
+            <li>Bloomberg Market Concepts (BMC)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <p class="eyebrow">Selected work</p>
+      <h2>Projects</h2>
+      <div class="projects">
+
+        <article class="card project">
+          <span class="label">Web App &middot; JavaScript</span>
+          <h3>Interactive LBO Returns Calculator</h3>
+          <p>
+            A browser-based leveraged buyout model that takes entry assumptions (EBITDA, purchase multiple,
+            leverage, growth, interest rate and cash conversion) and builds a year-by-year debt paydown
+            schedule to calculate exit equity value, MOIC and IRR in real time.
+          </p>
+          <div class="links">
+            <a href="lbo-calculator.html">Live Demo &rarr;</a>
+            <a class="gh-link" data-file="lbo-calculator.html" href="lbo-calculator.html" hidden>View Code on GitHub &rarr;</a>
+          </div>
+        </article>
+
+        <article class="card project">
+          <span class="label">Database &middot; SQL / MySQL</span>
+          <h3>Recruiting &amp; Deal Pipeline Database</h3>
+          <p>
+            A normalized MySQL database, applying the relational design concepts from my Management
+            Information Systems course, that models firms, contacts, applications and networking
+            interactions. It is based on the 100+ contact networking tracker I maintain for recruiting.
+            Includes the schema, sample data and analytical queries (pipeline by stage, referral impact,
+            follow-ups due, response rate by contact source).
+          </p>
+          <div class="links">
+            <a href="projects/pipeline-database.html">View Project &rarr;</a>
+            <a href="projects/pipeline-database.sql" download>Download .sql &rarr;</a>
+            <a class="gh-link" data-file="projects/pipeline-database.sql" href="projects/pipeline-database.html" hidden>View Code on GitHub &rarr;</a>
+          </div>
+        </article>
+
+        <article class="card project">
+          <span class="label">M&amp;A &middot; Summer Analyst, Morqlear</span>
+          <h3>Lower-Middle-Market Acquisition: LBO &amp; Pitch Materials</h3>
+          <p>
+            Worked on a live buy-side acquisition of a Midwest commercial paving contractor. Contributed
+            to the base-case LBO model (roughly 4.5x entry EBITDA multiple, 3.0x leverage) and co-authored
+            sections of the pitch deck covering the deal analysis.
+          </p>
+          <p class="note">Client work is confidential; model walkthrough available on request.</p>
+          <div class="links">
+            <a href="#contact">Request Details &rarr;</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- EXPERIENCE (brief) -->
+    <section id="experience">
+      <p class="eyebrow">Background</p>
+      <h2>Experience</h2>
+      <div class="exp">
+        <div class="card exp-row">
+          <span class="role">M&amp;A Summer Analyst, Morqlear</span>
+          <span class="when">Summer 2026</span>
+          <p>Live buy- and sell-side deal work focused on government contracting and defense targets: DCF, comps and LBO modeling.</p>
+        </div>
+        <div class="card exp-row">
+          <span class="role">Financial Analyst Intern, CDS Drywall</span>
+          <p>DCF, ROI and after-repair-value modeling on property acquisitions for a construction business.</p>
+        </div>
+        <div class="card exp-row">
+          <span class="role">Bank Teller</span>
+          <p>Ran the teller line solo, then led the team as new tellers were onboarded.</p>
+        </div>
+        <div class="card exp-row">
+          <span class="role">Secretary, Pi Kappa Phi (Iota Tau Chapter)</span>
+          <span class="when">Rutgers</span>
+          <p>Chapter officer responsible for records, communication and coordination.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <p class="eyebrow">Get in touch</p>
+      <h2>Contact</h2>
+      <p style="margin-bottom:20px;color:var(--muted);max-width:620px;">
+        I'm recruiting for 2027 summer analyst roles in banking, credit and investments. I'd be glad to connect.
+      </p>
+      <div class="btn-row">
+        <a class="btn primary" href="mailto:bcc106@scarletmail.rutgers.edu">bcc106@scarletmail.rutgers.edu</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Brandon Cruz &middot; Built with HTML, CSS &amp; JavaScript &middot; Hosted on GitHub Pages
+  </footer>
+
+  <script>
+    // On GitHub Pages, point the "View Code" links at this site's own repository automatically.
+    // Anywhere else (e.g. opening the file locally) those links stay hidden, so nothing is ever broken.
+    (function () {
+      var host = location.hostname;
+      if (!/\.github\.io$/i.test(host)) return;
+      var user = host.split(".")[0];
+      var segs = location.pathname.replace(/index\.html$/i, "").split("/").filter(Boolean);
+      var repo = segs.length ? segs[0] : user + ".github.io";
+      document.querySelectorAll(".gh-link").forEach(function (a) {
+        a.href = "https://github.com/" + user + "/" + repo + "/blob/main/" + a.dataset.file;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.hidden = false;
+      });
+    })();
+  </script>
+
+</body>
+</html>

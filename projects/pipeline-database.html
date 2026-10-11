@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pipeline Database | Brandon Cruz</title>
+  <meta name="description" content="A normalized MySQL database for tracking a recruiting and deal pipeline, by Brandon Cruz.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">Brandon Cruz</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Project &middot; SQL / MySQL</p>
+      <h1>Recruiting &amp; Deal Pipeline Database</h1>
+      <p class="statement">
+        A normalized relational database that tracks firms, contacts, applications and networking
+        touchpoints, then uses SQL to answer the questions that actually drive a recruiting pipeline.
+      </p>
+      <div class="btn-row">
+        <a class="btn primary" href="pipeline-database.sql" download>Download .sql</a>
+        <a class="btn ghost" href="#code">Jump to Code</a>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Design</p>
+      <h2>Schema</h2>
+      <div class="skills-grid">
+        <div class="card"><h3>firm</h3><p class="muted">One row per firm, with type (bulge bracket, middle market, private credit and more) and HQ city.</p></div>
+        <div class="card"><h3>contact</h3><p class="muted">People at each firm and how I met them (alumni, fraternity, referral, event, cold outreach). FK &rarr; firm.</p></div>
+        <div class="card"><h3>application</h3><p class="muted">Each role applied to, its date and current stage, plus an optional referral contact. FK &rarr; firm, contact.</p></div>
+        <div class="card"><h3>interaction</h3><p class="muted">Every touchpoint: channel, whether they replied, and the next follow-up date. FK &rarr; contact.</p></div>
+      </div>
+      <p class="note" style="margin-top:16px;">Stages and channels use ENUMs to keep data consistent; firm and contact names are fictional sample data.</p>
+    </section>
+
+    <section>
+      <p class="eyebrow">Output</p>
+      <h2>Query Results</h2>
+      <p class="muted" style="margin-bottom:20px;">Actual output from running the script on a MySQL-compatible server.</p>
+      <div class="results-grid">
+<div class="card result"><h3>1. Pipeline summary: applications in each stage</h3><div class="table-wrap"><table class="results"><thead><tr><th class="">Stage</th><th class="n">Apps</th></tr></thead><tbody><tr><td class="">Applied</td><td class="n">1</td></tr><tr><td class="">Assessment</td><td class="n">1</td></tr><tr><td class="">First Round</td><td class="n">1</td></tr><tr><td class="">Superday</td><td class="n">1</td></tr><tr><td class="">Offer</td><td class="n">1</td></tr><tr><td class="">Rejected</td><td class="n">1</td></tr></tbody></table></div></div>
+<div class="card result"><h3>2. Do referrals help? Referred vs. non-referred applications</h3><div class="table-wrap"><table class="results"><thead><tr><th class="">Referral</th><th class="n">Apps</th><th class="n">Advanced</th></tr></thead><tbody><tr><td class="">No Referral</td><td class="n">3</td><td class="n">0</td></tr><tr><td class="">Referral</td><td class="n">3</td><td class="n">3</td></tr></tbody></table></div></div>
+<div class="card result"><h3>3. Follow-ups due in the next 7 days (as of Oct 9, 2026)</h3><div class="table-wrap"><table class="results"><thead><tr><th class="">First</th><th class="">Last</th><th class="">Firm</th><th class="">Channel</th><th class="">Follow-up</th></tr></thead><tbody><tr><td class="">Marcus</td><td class="">Bell</td><td class="">Ironbridge Advisory</td><td class="">Email</td><td class="">2026-10-10</td></tr><tr><td class="">Priya</td><td class="">Shah</td><td class="">Summit Ridge Partners</td><td class="">Coffee Chat</td><td class="">2026-10-12</td></tr><tr><td class="">Sofia</td><td class="">Alvarez</td><td class="">Crestline Securities</td><td class="">LinkedIn</td><td class="">2026-10-14</td></tr><tr><td class="">Jordan</td><td class="">Reyes</td><td class="">Harbor Point Capital</td><td class="">LinkedIn</td><td class="">2026-10-15</td></tr></tbody></table></div></div>
+<div class="card result"><h3>4. Outreach response rate by contact source</h3><div class="table-wrap"><table class="results"><thead><tr><th class="">Source</th><th class="n">Touches</th><th class="n">Response %</th></tr></thead><tbody><tr><td class="">Alumni</td><td class="n">2</td><td class="n">100.0</td></tr><tr><td class="">Fraternity</td><td class="n">1</td><td class="n">100.0</td></tr><tr><td class="">Referral</td><td class="n">1</td><td class="n">100.0</td></tr><tr><td class="">Event</td><td class="n">2</td><td class="n">50.0</td></tr><tr><td class="">Cold Outreach</td><td class="n">3</td><td class="n">0.0</td></tr></tbody></table></div></div>
+<div class="card result"><h3>5. Active applications with referral contact</h3><div class="table-wrap"><table class="results"><thead><tr><th class="">Firm</th><th class="">Type</th><th class="">Role</th><th class="">Stage</th><th class="">Referred by</th></tr></thead><tbody><tr><td class="">Harbor Point Capital</td><td class="">Private Credit</td><td class="">2027 Private Credit Summer Analyst</td><td class="">First Round</td><td class="">Jordan Reyes</td></tr><tr><td class="">Summit Ridge Partners</td><td class="">Middle Market</td><td class="">2027 IB Summer Analyst</td><td class="">Superday</td><td class="">Priya Shah</td></tr><tr><td class="">Northgate Insurance Group</td><td class="">Insurance</td><td class="">2027 Finance Rotational Intern</td><td class="">Offer</td><td class="">Daniel Moore</td></tr><tr><td class="">Ironbridge Advisory</td><td class="">Boutique</td><td class="">2027 M&amp;A Summer Analyst</td><td class="">Applied</td><td class="">&mdash;</td></tr><tr><td class="">Lakeshore Asset Mgmt</td><td class="">Asset Manager</td><td class="">2027 Investments Intern</td><td class="">Assessment</td><td class="">&mdash;</td></tr></tbody></table></div></div>
+      </div>
+    </section>
+
+    <section id="code">
+      <p class="eyebrow">Source</p>
+      <h2>Full SQL Script</h2>
+      <pre class="code"><code>-- =====================================================================
+-- Recruiting &amp; Deal Pipeline Database
+-- Author: Brandon Cruz | Rutgers Business School
+-- Platform: MySQL 8 (runs as-is in MySQL Workbench)
+--
+-- Purpose: track firms, contacts, applications and networking touchpoints
+-- in a normalized (3NF) schema, then answer pipeline questions with SQL.
+-- =====================================================================
+
+DROP DATABASE IF EXISTS pipeline_db;
+CREATE DATABASE pipeline_db;
+USE pipeline_db;
+
+-- ---------------------------------------------------------------------
+-- Tables
+-- ---------------------------------------------------------------------
+
+CREATE TABLE firm (
+    firm_id      INT AUTO_INCREMENT PRIMARY KEY,
+    firm_name    VARCHAR(100) NOT NULL UNIQUE,
+    firm_type    ENUM(&#x27;Bulge Bracket&#x27;,&#x27;Middle Market&#x27;,&#x27;Boutique&#x27;,&#x27;Asset Manager&#x27;,
+                      &#x27;Private Credit&#x27;,&#x27;Insurance&#x27;,&#x27;Other&#x27;) NOT NULL,
+    hq_city      VARCHAR(60)
+);
+
+CREATE TABLE contact (
+    contact_id   INT AUTO_INCREMENT PRIMARY KEY,
+    firm_id      INT NOT NULL,
+    first_name   VARCHAR(50) NOT NULL,
+    last_name    VARCHAR(50) NOT NULL,
+    title        VARCHAR(80),
+    source       ENUM(&#x27;Alumni&#x27;,&#x27;Fraternity&#x27;,&#x27;Cold Outreach&#x27;,&#x27;Referral&#x27;,&#x27;Event&#x27;) NOT NULL,
+    FOREIGN KEY (firm_id) REFERENCES firm(firm_id)
+);
+
+CREATE TABLE application (
+    application_id INT AUTO_INCREMENT PRIMARY KEY,
+    firm_id        INT NOT NULL,
+    role_title     VARCHAR(120) NOT NULL,
+    date_applied   DATE NOT NULL,
+    stage          ENUM(&#x27;Applied&#x27;,&#x27;Assessment&#x27;,&#x27;First Round&#x27;,&#x27;Superday&#x27;,
+                        &#x27;Offer&#x27;,&#x27;Rejected&#x27;,&#x27;Withdrawn&#x27;) NOT NULL DEFAULT &#x27;Applied&#x27;,
+    referral_contact_id INT NULL,
+    FOREIGN KEY (firm_id) REFERENCES firm(firm_id),
+    FOREIGN KEY (referral_contact_id) REFERENCES contact(contact_id)
+);
+
+CREATE TABLE interaction (
+    interaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    contact_id     INT NOT NULL,
+    interaction_date DATE NOT NULL,
+    channel        ENUM(&#x27;Email&#x27;,&#x27;LinkedIn&#x27;,&#x27;Call&#x27;,&#x27;Coffee Chat&#x27;) NOT NULL,
+    got_response   BOOLEAN NOT NULL DEFAULT FALSE,
+    follow_up_date DATE NULL,
+    notes          VARCHAR(255),
+    FOREIGN KEY (contact_id) REFERENCES contact(contact_id)
+);
+
+-- ---------------------------------------------------------------------
+-- Sample data (fictional firms and contacts for demonstration)
+-- ---------------------------------------------------------------------
+
+INSERT INTO firm (firm_name, firm_type, hq_city) VALUES
+(&#x27;Harbor Point Capital&#x27;,    &#x27;Private Credit&#x27;, &#x27;New York&#x27;),
+(&#x27;Summit Ridge Partners&#x27;,   &#x27;Middle Market&#x27;,  &#x27;New York&#x27;),
+(&#x27;Ironbridge Advisory&#x27;,     &#x27;Boutique&#x27;,       &#x27;Arlington&#x27;),
+(&#x27;Lakeshore Asset Mgmt&#x27;,    &#x27;Asset Manager&#x27;,  &#x27;Chicago&#x27;),
+(&#x27;Northgate Insurance Group&#x27;,&#x27;Insurance&#x27;,     &#x27;New York&#x27;),
+(&#x27;Crestline Securities&#x27;,    &#x27;Bulge Bracket&#x27;,  &#x27;New York&#x27;);
+
+INSERT INTO contact (firm_id, first_name, last_name, title, source) VALUES
+(1, &#x27;Jordan&#x27;, &#x27;Reyes&#x27;,   &#x27;Associate&#x27;,      &#x27;Alumni&#x27;),
+(2, &#x27;Priya&#x27;,  &#x27;Shah&#x27;,    &#x27;Vice President&#x27;, &#x27;Fraternity&#x27;),
+(3, &#x27;Marcus&#x27;, &#x27;Bell&#x27;,    &#x27;Managing Director&#x27;,&#x27;Cold Outreach&#x27;),
+(4, &#x27;Elena&#x27;,  &#x27;Park&#x27;,    &#x27;Analyst&#x27;,        &#x27;Event&#x27;),
+(5, &#x27;Daniel&#x27;, &#x27;Moore&#x27;,   &#x27;Managing Director&#x27;,&#x27;Referral&#x27;),
+(6, &#x27;Sofia&#x27;,  &#x27;Alvarez&#x27;, &#x27;Associate&#x27;,      &#x27;Cold Outreach&#x27;);
+
+INSERT INTO application (firm_id, role_title, date_applied, stage, referral_contact_id) VALUES
+(1, &#x27;2027 Private Credit Summer Analyst&#x27;, &#x27;2026-08-10&#x27;, &#x27;First Round&#x27;, 1),
+(2, &#x27;2027 IB Summer Analyst&#x27;,             &#x27;2026-08-18&#x27;, &#x27;Superday&#x27;,    2),
+(3, &#x27;2027 M&amp;A Summer Analyst&#x27;,            &#x27;2026-09-02&#x27;, &#x27;Applied&#x27;,     NULL),
+(4, &#x27;2027 Investments Intern&#x27;,            &#x27;2026-09-05&#x27;, &#x27;Assessment&#x27;,  NULL),
+(5, &#x27;2027 Finance Rotational Intern&#x27;,     &#x27;2026-08-25&#x27;, &#x27;Offer&#x27;,       5),
+(6, &#x27;2027 Global Markets Summer Analyst&#x27;, &#x27;2026-08-12&#x27;, &#x27;Rejected&#x27;,    NULL);
+
+INSERT INTO interaction (contact_id, interaction_date, channel, got_response, follow_up_date, notes) VALUES
+(1, &#x27;2026-07-20&#x27;, &#x27;LinkedIn&#x27;,    TRUE,  &#x27;2026-10-15&#x27;, &#x27;Intro via alumni network&#x27;),
+(1, &#x27;2026-08-01&#x27;, &#x27;Call&#x27;,        TRUE,  NULL,         &#x27;Discussed private credit recruiting&#x27;),
+(2, &#x27;2026-07-28&#x27;, &#x27;Coffee Chat&#x27;, TRUE,  &#x27;2026-10-12&#x27;, &#x27;Offered to refer&#x27;),
+(3, &#x27;2026-09-01&#x27;, &#x27;Email&#x27;,       FALSE, &#x27;2026-10-10&#x27;, &#x27;Cold email, no reply yet&#x27;),
+(4, &#x27;2026-09-04&#x27;, &#x27;LinkedIn&#x27;,    TRUE,  NULL,         &#x27;Met at campus event&#x27;),
+(5, &#x27;2026-08-20&#x27;, &#x27;Call&#x27;,        TRUE,  NULL,         &#x27;Advocated with HR&#x27;),
+(6, &#x27;2026-08-05&#x27;, &#x27;Email&#x27;,       FALSE, NULL,         &#x27;Cold email, no reply&#x27;),
+(6, &#x27;2026-08-19&#x27;, &#x27;LinkedIn&#x27;,    FALSE, &#x27;2026-10-14&#x27;, &#x27;Second touch, no reply yet&#x27;),
+(4, &#x27;2026-09-20&#x27;, &#x27;Email&#x27;,       FALSE, NULL,         &#x27;Thank-you note after event&#x27;);
+
+-- ---------------------------------------------------------------------
+-- Analytical queries
+-- ---------------------------------------------------------------------
+
+-- 1. Pipeline summary: how many applications sit in each stage?
+SELECT stage, COUNT(*) AS num_applications
+FROM application
+GROUP BY stage
+ORDER BY FIELD(stage,&#x27;Applied&#x27;,&#x27;Assessment&#x27;,&#x27;First Round&#x27;,&#x27;Superday&#x27;,&#x27;Offer&#x27;,&#x27;Rejected&#x27;,&#x27;Withdrawn&#x27;);
+
+-- 2. Do referrals help? Compare how far referred vs. non-referred applications advance.
+SELECT
+    CASE WHEN referral_contact_id IS NULL THEN &#x27;No Referral&#x27; ELSE &#x27;Referral&#x27; END AS referral_status,
+    COUNT(*) AS apps,
+    SUM(stage IN (&#x27;First Round&#x27;,&#x27;Superday&#x27;,&#x27;Offer&#x27;)) AS advanced_past_screen
+FROM application
+GROUP BY referral_status;
+
+-- 3. Follow-ups due in the next 7 days (relative to a given date).
+SET @today = &#x27;2026-10-09&#x27;;
+SELECT c.first_name, c.last_name, f.firm_name, i.channel, i.follow_up_date
+FROM interaction i
+JOIN contact c ON c.contact_id = i.contact_id
+JOIN firm f    ON f.firm_id    = c.firm_id
+WHERE i.follow_up_date BETWEEN @today AND DATE_ADD(@today, INTERVAL 7 DAY)
+ORDER BY i.follow_up_date;
+
+-- 4. Outreach response rate by contact source.
+SELECT c.source,
+       COUNT(*) AS touches,
+       ROUND(100 * AVG(i.got_response), 1) AS response_rate_pct
+FROM interaction i
+JOIN contact c ON c.contact_id = i.contact_id
+GROUP BY c.source
+ORDER BY response_rate_pct DESC, touches DESC;
+
+-- 5. Full view of each active application with its referral contact (if any).
+SELECT f.firm_name, f.firm_type, a.role_title, a.stage,
+       CONCAT(c.first_name, &#x27; &#x27;, c.last_name) AS referral
+FROM application a
+JOIN firm f          ON f.firm_id = a.firm_id
+LEFT JOIN contact c  ON c.contact_id = a.referral_contact_id
+WHERE a.stage NOT IN (&#x27;Rejected&#x27;,&#x27;Withdrawn&#x27;)
+ORDER BY a.date_applied;
+</code></pre>
+      <div class="btn-row" style="margin-top:28px;">
+        <a class="btn ghost" href="../index.html#projects">&larr; Back to Projects</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2026 Brandon Cruz</footer>
+</body>
+</html>
